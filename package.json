@@ -1,0 +1,14 @@
+{
+  "name": "nexusai",
+  "version": "1.0.0",
+  "description": "NexusAI - Multi AI Knowledge API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "Rizwan",
+  "license": "ISC",
+  "type": "commonjs"
+}

@@ -10,6 +10,10 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Routes
+const chatRoute = require('./routes/chat');
+app.use('/api/chat', chatRoute);
+
 // Test route
 app.get('/', (req, res) => {
   res.json({ message: 'NexusAI API is live! 🔥', status: 'ok' });

@@ -1,35 +1,51 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 
-let flashcards = [];
-let idCounter = 1;
+const flashcardSchema = new mongoose.Schema({
+  topic: String,
+  question: String,
+  answer: String,
+  createdAt: { type: Date, default: Date.now }
+});
+
+const Flashcard = mongoose.model('Flashcard', flashcardSchema);
 
 // Get all flashcards
-router.get('/', (req, res) => {
-  const { topic } = req.query;
-  if (topic) {
-    const filtered = flashcards.filter(f => f.topic.toLowerCase() === topic.toLowerCase());
-    return res.json(filtered);
+router.get('/', async (req, res) => {
+  try {
+    const { topic } = req.query;
+    const query = topic ? { topic: new RegExp(topic, 'i') } : {};
+    const cards = await Flashcard.find(query);
+    res.json(cards);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch flashcards' });
   }
-  res.json(flashcards);
 });
 
 // Add flashcard
-router.post('/', (req, res) => {
-  const { topic, question, answer } = req.body;
-  if (!topic || !question || !answer) {
-    return res.status(400).json({ error: 'topic, question and answer required' });
+router.post('/', async (req, res) => {
+  try {
+    const { topic, question, answer } = req.body;
+    if (!topic || !question || !answer) {
+      return res.status(400).json({ error: 'topic, question and answer required' });
+    }
+    const card = new Flashcard({ topic, question, answer });
+    await card.save();
+    res.json({ message: 'Flashcard added!', card });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to add flashcard' });
   }
-  const card = { id: idCounter++, topic, question, answer };
-  flashcards.push(card);
-  res.json({ message: 'Flashcard added!', card });
 });
 
 // Delete flashcard
-router.delete('/:id', (req, res) => {
-  const id = parseInt(req.params.id);
-  flashcards = flashcards.filter(f => f.id !== id);
-  res.json({ message: 'Flashcard deleted!' });
+router.delete('/:id', async (req, res) => {
+  try {
+    await Flashcard.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Flashcard deleted!' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete flashcard' });
+  }
 });
 
 module.exports = router;

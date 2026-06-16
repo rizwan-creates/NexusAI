@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
     const cat = category || 'technology';
 
     const response = await axios.get(
-      `https://gnews.io/api/v4/top-headlines?category=${cat}&lang=en&max=5&apikey=${process.env.GNEWS_API_KEY}`
+      `https://newsapi.org/v2/top-headlines?category=${cat}&language=en&pageSize=5&apiKey=${process.env.NEWSAPI_KEY}`
     );
 
     const articles = response.data.articles.map(a => ({
@@ -20,6 +20,7 @@ router.get('/', async (req, res) => {
 
     res.json({ category: cat, articles });
   } catch (error) {
+    console.error('News error:', error.response?.data || error.message);
     res.status(500).json({ error: 'News fetch failed' });
   }
 });

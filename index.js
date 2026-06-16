@@ -20,6 +20,9 @@ app.use('/api/dictionary', dictionaryRoute);
 const newsRoute = require('./routes/news');
 app.use('/api/news', newsRoute);
 
+const flashcardsRoute = require('./routes/flashcards');
+app.use('/api/flashcards', flashcardsRoute);
+
 // Test route
 app.get('/', (req, res) => {
   res.json({ message: 'NexusAI API is live! 🔥', status: 'ok' });

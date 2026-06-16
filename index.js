@@ -14,6 +14,9 @@ app.use(express.json());
 const chatRoute = require('./routes/chat');
 app.use('/api/chat', chatRoute);
 
+const dictionaryRoute = require('./routes/dictionary');
+app.use('/api/dictionary', dictionaryRoute);
+
 // Test route
 app.get('/', (req, res) => {
   res.json({ message: 'NexusAI API is live! 🔥', status: 'ok' });

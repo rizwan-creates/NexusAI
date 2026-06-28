@@ -23,6 +23,7 @@ const newsRoute = require('./routes/news');
 const flashcardsRoute = require('./routes/flashcards');
 const brainRoute = require('./routes/brain');
 const gutenbergRoute = require('./routes/gutenberg');
+const memoryRoute = require('./routes/memory');
 
 app.use('/api/chat', chatRoute);
 app.use('/api/dictionary', dictionaryRoute);
@@ -30,6 +31,7 @@ app.use('/api/news', newsRoute);
 app.use('/api/flashcards', flashcardsRoute);
 app.use('/api/brain', brainRoute);
 app.use('/api/gutenberg', gutenbergRoute);
+app.use('/api/memory', memoryRoute);
 
 // Test route
 app.get('/', (req, res) => {

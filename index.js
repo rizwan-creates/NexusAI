@@ -21,11 +21,13 @@ const chatRoute = require('./routes/chat');
 const dictionaryRoute = require('./routes/dictionary');
 const newsRoute = require('./routes/news');
 const flashcardsRoute = require('./routes/flashcards');
+const brainRoute = require('./routes/brain');
 
 app.use('/api/chat', chatRoute);
 app.use('/api/dictionary', dictionaryRoute);
 app.use('/api/news', newsRoute);
 app.use('/api/flashcards', flashcardsRoute);
+app.use('/api/brain', brainRoute);
 
 // Test route
 app.get('/', (req, res) => {

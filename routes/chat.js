@@ -36,6 +36,15 @@ async function callGroq(message) {
   return response.data.choices[0].message.content;
 }
 
+
+async function callGemini(message) {
+  const response = await axios.post(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+    { contents: [{ parts: [{ text: message }] }] },
+    { headers: { 'Content-Type': 'application/json' } }
+  );
+  return response.data.candidates[0].content.parts[0].text;
+}
 async function callWikipedia(message) {
   const response = await axios.get(
     `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(message)}`,
@@ -59,7 +68,12 @@ router.post('/', async (req, res) => {
     } else if (intent === 'dictionary') {
       reply = 'Dictionary ke liye /api/dictionary use karo!';
     } else {
+      try {
       reply = await callGroq(message);
+    } catch (groqError) {
+      console.log('Groq failed, trying Gemini...');
+      reply = await callGemini(message);
+    }
     }
     res.json({ reply, intent });
   } catch (error) {

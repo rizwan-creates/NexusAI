@@ -22,12 +22,14 @@ const dictionaryRoute = require('./routes/dictionary');
 const newsRoute = require('./routes/news');
 const flashcardsRoute = require('./routes/flashcards');
 const brainRoute = require('./routes/brain');
+const gutenbergRoute = require('./routes/gutenberg');
 
 app.use('/api/chat', chatRoute);
 app.use('/api/dictionary', dictionaryRoute);
 app.use('/api/news', newsRoute);
 app.use('/api/flashcards', flashcardsRoute);
 app.use('/api/brain', brainRoute);
+app.use('/api/gutenberg', gutenbergRoute);
 
 // Test route
 app.get('/', (req, res) => {
